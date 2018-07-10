@@ -17,7 +17,12 @@ namespace SP_0_1
             board.updatePositionCharacter(char1);
             board.showBoard();
             Console.WriteLine("DEPLACEMENT");
-            
+            board.showDeplacementPossible();
+            board.updateMovePossible(char1);
+            Console.WriteLine("DEPLACEMENT");
+            board.showDeplacementPossible();
+            board.showBoardHigh();
+
 
             string saisie = Console.ReadLine();
             

@@ -6,16 +6,18 @@ namespace SP_0_1
 {
     class Character
     {
-        private int positionX;
-        private int positionY;
+        public int PositionX { get; set; }
+        public int PositionY { get; set; }
+        public int MovePoint { get; set; }
 
         public Character(int positionX, int positionY)
         {
-            this.positionX = positionX;
-            this.positionY = positionY;
+            PositionX = positionX;
+            PositionY = positionY;
+            MovePoint = 4;
         }
 
-
+        /*
         public int getPositionX()
         {
             return positionX;
@@ -25,5 +27,18 @@ namespace SP_0_1
         {
             return positionY;
         }
+        */
+
+        public void move()
+        {
+
+        }
+        /*
+        public int getMovePoint()
+        {
+            return movePoint;
+        }
+    */
+
     }
 }
