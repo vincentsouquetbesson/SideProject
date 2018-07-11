@@ -9,32 +9,38 @@ namespace SP_0_1
         public int Type { get; set; }
         public double High { get; set; }
         public Character Piece { get; set; }
-        public Boolean MovePossible { get; set; }
+        public int MovePossible { get; set; }
 
-
+        public double DirNorth { get; set; }
+        public double DirSouth { get; set; }
+        public double DirEast { get; set; }
+        public double DirWest { get; set; }
 
         public Tile(int type, double high)
         {
             Type = type;
             High = high;
             Piece = null;
-            MovePossible = false;
+            MovePossible = 300;
         }
 
 
-        public void characterLeave()
-        {
+        public void characterLeave(){
             Piece = null;
-
         }
 
-        public Boolean charOnTile()
+
+        public int CharOnTile()
         {
             if (Piece == null)
-                return false;
-            else
-                return true;
-
+                return 0;
+            else{
+                if (Piece.Team == 2){
+                    return 2;
+                }
+                else
+                    return 1;
+            }
         }
 
 

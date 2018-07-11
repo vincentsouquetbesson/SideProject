@@ -9,36 +9,22 @@ namespace SP_0_1
         public int PositionX { get; set; }
         public int PositionY { get; set; }
         public int MovePoint { get; set; }
+        public int Team { get; set; } // 1.ally 2.foe 3.Pnj
 
-        public Character(int positionX, int positionY)
+        public Character(int positionX, int positionY, int team)
         {
             PositionX = positionX;
             PositionY = positionY;
+            Team = team;
             MovePoint = 4;
         }
 
-        /*
-        public int getPositionX()
-        {
-            return positionX;
-        }
 
-        public int getPositionY()
-        {
-            return positionY;
-        }
-        */
 
         public void move()
         {
 
         }
-        /*
-        public int getMovePoint()
-        {
-            return movePoint;
-        }
-    */
 
     }
 }

@@ -7,21 +7,25 @@ namespace SP_0_1
         static void Main(string[] args)
         {
             Board board = new Board();
-            board.showBoard();
+            board.ShowBoard();
 
-            board.showBoardHigh();
+            board.ShowBoardHigh();
 
 
-            Character char1 = new Character(5, 3);
+            Character hero = new Character(5, 3,1);
+            Character foe = new Character(4, 4, 2);
 
-            board.updatePositionCharacter(char1);
-            board.showBoard();
-            Console.WriteLine("DEPLACEMENT");
+            board.UpdatePositionCharacter(hero);
+            board.UpdatePositionCharacter(foe);
+            //  board.ShowBoard();
+            Console.WriteLine("Depart");
             board.showDeplacementPossible();
-            board.updateMovePossible(char1);
+
+            
             Console.WriteLine("DEPLACEMENT");
+            board.UpdateMovePossible(hero);
             board.showDeplacementPossible();
-            board.showBoardHigh();
+            board.ShowBoardHigh();
 
 
             string saisie = Console.ReadLine();
