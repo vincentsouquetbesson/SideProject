@@ -12,16 +12,18 @@ namespace SP_0_1
             board.ShowBoardHigh();
 
 
-            Character char1 = new Character(5, 3);
+            Character hero = new Character(5, 3,1);
+            Character foe = new Character(4, 4, 2);
 
-              board.UpdatePositionCharacter(char1);
+            board.UpdatePositionCharacter(hero);
+            board.UpdatePositionCharacter(foe);
             //  board.ShowBoard();
             Console.WriteLine("Depart");
             board.showDeplacementPossible();
 
             
             Console.WriteLine("DEPLACEMENT");
-            board.UpdateMovePossible(char1);
+            board.UpdateMovePossible(hero);
             board.showDeplacementPossible();
             board.ShowBoardHigh();
 
