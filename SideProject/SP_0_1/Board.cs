@@ -12,11 +12,15 @@ namespace SP_0_1
         public Board()
         {
             SizeBoard = 10;   //always square
-            createBoard();
+            CreateBoard();
             RowList[3][3].High = 2;
+            //RowList[4][4].High = 1;
+            RowList[5][5].High = 1;
+            UpdateDirectionnalField();
+            Console.WriteLine(RowList[3][3].DirEast);
         }
 
-        private void createBoard()
+        private void CreateBoard()
         {
             for (int i = 0; i < SizeBoard; i++)
             {
@@ -32,19 +36,24 @@ namespace SP_0_1
         }
 
 
-        public void showBoard()
+
+
+        public void ShowBoard()
         {
             foreach (List<Tile> list in RowList)
             {
                 foreach (Tile tile in list)
                 {
-                    if (tile.charOnTile() == false)
+                    if (tile.CharOnTile() == 0)
                     {
                         Console.Write("[ ]");
                     }
                     else
                     {
-                        Console.Write("[*]");
+                        if (tile.CharOnTile() == 1)
+                            Console.Write("[O]");
+                        else
+                            Console.Write("[X]");
                     }
                 }
                 Console.Write("\n");
@@ -53,7 +62,7 @@ namespace SP_0_1
 
 
 
-        public void showBoardHigh()
+        public void ShowBoardHigh()
         {
             foreach (List<Tile> list in RowList)  //AFFICHAGE COLLONE
             {
@@ -69,7 +78,7 @@ namespace SP_0_1
 
 
 
-        public void updatePositionCharacter(Character character)
+        public void UpdatePositionCharacter(Character character)
         {
             //rowList[character.getPositionX()][character.getPositionY()].characterOnTile(character);
             RowList[character.PositionY][character.PositionX].Piece = character;
@@ -77,155 +86,50 @@ namespace SP_0_1
 
 
 
-        /*
-        public void updateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
+
+        private void UpdateDirectionnalField()
         {
-            int mp = character.MovePoint;  //on recupére les point de movement du perso
-            int posX = character.PositionX; //on recupére sa position en X
-            int posY = character.PositionY; //on récupére sa position en Y
-            int circle = 1;             //permet de tracer un cercle de mouvement
-
-            for (int i = mp; i >= 0; i--) //parti sup 0 - character
+            Console.WriteLine("update");
+            for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
             {
-                if (posY - i < 0) //si sa depasse du board UP
+                for (int j = 0; j < SizeBoard; j++) //On parcourt les X
                 {
-                    circle++;
-                    continue;
-                }
-                else
-                {
-                    if (i == mp) //On a deja vérifié la position vertical, et l'horizon ne bouge pas
+                    if (i == 0 || i == SizeBoard - 1)
                     {
-                        RowList[character.PositionY - i][character.PositionX].MovePossible = true;
-                        RowList[character.PositionY - i][character.PositionX].High = 3;
-                        circle++;
+                        if (i == 0)
+                        {
+                            RowList[i][j].DirNorth = 100;
+                            RowList[i][j].DirSouth = RowList[i + 1][j].High - RowList[i][j].High;
+                        }
+                        else
+                        {
+                            RowList[i][j].DirSouth = 100;
+                            RowList[i][j].DirNorth = RowList[i - 1][j].High - RowList[i][j].High;
+                        }
                     }
                     else
                     {
-                        for (int j = 0; j < circle; j++)
-                        {
-                            if(character.PositionX + j < SizeBoard) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY - i][character.PositionX + j].MovePossible = true;
-                            }
-                            if (character.PositionX - j >= 0) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY - i][character.PositionX - j].MovePossible = true;
-                            }
-                        }
-                        RowList[character.PositionY - i][character.PositionX].MovePossible = true;
-                        circle++;
+                        RowList[i][j].DirNorth = RowList[i - 1][j].High - RowList[i][j].High;
+                        RowList[i][j].DirSouth = RowList[i + 1][j].High - RowList[i][j].High;
                     }
-                }
-            }
-            circle -=2;
-            
-            for (int i = 1; i <= mp; i++) //parti sup 0 - character
-            {
-                if (posY + i > SizeBoard-1) //si sa depasse du board Down
-                {
-                    continue;
-                }
-                else
-                {
-                    if (i == mp) //On a deja vérifié la position vertical, et l'horizon ne bouge pas
+
+                    if (j == 0 || j == SizeBoard - 1)
                     {
-                        RowList[character.PositionY + i][character.PositionX].MovePossible = true;
-                        RowList[character.PositionY + i][character.PositionX].High = 3;
+                        if (j == 0)
+                        {
+                            RowList[i][j].DirWest = 100;
+                            RowList[i][j].DirEast = RowList[i][j + 1].High - RowList[i][j].High;
+                        }
+                        else
+                        {
+                            RowList[i][j].DirEast = 100;
+                            RowList[i][j].DirWest = RowList[i][j - 1].High - RowList[i][j].High;
+                        }
                     }
                     else
                     {
-                        for (int j = 0; j < circle; j++)
-                        {
-                            if (character.PositionX + j < SizeBoard) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY + i][character.PositionX + j].MovePossible = true;
-                            }
-                            if (character.PositionX - j >= 0) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY + i][character.PositionX - j].MovePossible = true;
-                            }
-                        }
-                        RowList[character.PositionY + i][character.PositionX].MovePossible = true;
-                        circle--;
-                    }
-                }
-            }
-        }*/
-
-
-
-
-        public void updateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
-        {
-            int mp = character.MovePoint;  //on recupére les point de movement du perso
-            int posX = character.PositionX; //on recupére sa position en X
-            int posY = character.PositionY; //on récupére sa position en Y
-            int circle = 1;             //permet de tracer un cercle de mouvement
-/*
-            for (int i = mp; i >= 0; i--) //parti sup 0 - character
-            {
-                if (posY - i < 0) //si sa depasse du board UP
-                {
-                    circle++;
-                    continue;
-                }
-                else
-                {
-                    if (i == mp) //On a deja vérifié la position vertical, et l'horizon ne bouge pas
-                    {
-                        RowList[character.PositionY - i][character.PositionX].MovePossible = true;
-                        RowList[character.PositionY - i][character.PositionX].High = 3;
-                        circle++;
-                    }
-                    else
-                    {
-                        for (int j = 0; j < circle; j++)
-                        {
-                            if (character.PositionX + j < SizeBoard) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY - i][character.PositionX + j].MovePossible = true;
-                            }
-                            if (character.PositionX - j >= 0) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY - i][character.PositionX - j].MovePossible = true;
-                            }
-                        }
-                        RowList[character.PositionY - i][character.PositionX].MovePossible = true;
-                        circle++;
-                    }
-                }
-            }
-            circle -= 2;*/
-            circle = mp+1;
-            for (int i = 0; i <= mp; i++) //parti sup 0 - character
-            {
-                if (posY + i > SizeBoard - 1) //si sa depasse du board Down
-                {
-                    continue;
-                }
-                else
-                {
-                    if (i == mp) //On a deja vérifié la position vertical, et l'horizon ne bouge pas
-                    {
-                        RowList[character.PositionY + i][character.PositionX].MovePossible = true;
-                        RowList[character.PositionY + i][character.PositionX].High = 3;
-                    }
-                    else
-                    {
-                        for (int j = 0; j < circle; j++)
-                        {
-                            if (character.PositionX + j < SizeBoard) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY + i][character.PositionX + j].MovePossible = true;
-                            }
-                            if (character.PositionX - j >= 0) //Verification de la position futur en X
-                            {
-                                RowList[character.PositionY + i][character.PositionX - j].MovePossible = true;
-                            }
-                        }
-                        RowList[character.PositionY + i][character.PositionX].MovePossible = true;
-                        circle--;
+                        RowList[i][j].DirWest = RowList[i][j - 1].High - RowList[i][j].High;
+                        RowList[i][j].DirEast = RowList[i][j + 1].High - RowList[i][j].High;
                     }
                 }
             }
@@ -235,6 +139,44 @@ namespace SP_0_1
 
 
 
+
+
+
+
+        public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
+        {
+            RowList[character.PositionY][character.PositionX].MovePossible = 0;
+            for (int m = 0; m < character.MovePoint; m++)
+            {
+                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+                {
+                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                    {
+                        if (RowList[i][j].MovePossible == m)
+                        {
+                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2)
+                            {
+                                RowList[i - 1][j].MovePossible = m + 1;
+                            }
+                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2)
+                            {
+                                RowList[i + 1][j].MovePossible = m + 1;
+                            }
+                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2)
+                            {
+                                RowList[i][j - 1].MovePossible = m + 1;
+                            }
+                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < SizeBoard && RowList[i][j + 1].CharOnTile() != 2)
+                            {
+                                RowList[i][j + 1].MovePossible = m + 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
 
 
 
@@ -262,23 +204,24 @@ namespace SP_0_1
             {
                 foreach (Tile tile in list)   //Y
                 {
-                    if (tile.charOnTile() != false)
+                    if (tile.CharOnTile() != 0)
                     {
-                        Console.Write("[*]");
+                        if (tile.CharOnTile() == 1)  //A REFAIRE
+                            Console.Write("[O]");
+                        else
+                            Console.Write("[X]");
                     }
                     else
                     {
-                        if (tile.MovePossible == true)
-                        {
-                            Console.Write("[D]");
-                        }
-                        else
+                        if (tile.MovePossible == 300)
                         {
                             Console.Write("[ ]");
                         }
+                        else
+                        {
+                            Console.Write("[*]");
+                        }
                     }
-
-                        
                 }
                 Console.Write("\n");
             }
