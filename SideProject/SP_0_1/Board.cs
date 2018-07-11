@@ -197,7 +197,7 @@ namespace SP_0_1
                 }
             }
             circle -= 2;*/
-            circle = mp;
+            circle = mp+1;
             for (int i = 0; i <= mp; i++) //parti sup 0 - character
             {
                 if (posY + i > SizeBoard - 1) //si sa depasse du board Down
