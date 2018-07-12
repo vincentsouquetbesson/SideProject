@@ -21,7 +21,7 @@ namespace SP_0_1
             Type = type;
             High = high;
             Piece = null;
-            MovePossible = 300;
+            MovePossible = 300;  //300 == incorect
         }
 
 

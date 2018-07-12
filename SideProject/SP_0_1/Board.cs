@@ -20,6 +20,12 @@ namespace SP_0_1
             Console.WriteLine(RowList[3][3].DirEast);
         }
 
+        public List<List<Tile>> getRowList()
+        {
+            return RowList;
+        }
+
+
         private void CreateBoard()
         {
             for (int i = 0; i < SizeBoard; i++)
@@ -38,49 +44,9 @@ namespace SP_0_1
 
 
 
-        public void ShowBoard()
-        {
-            foreach (List<Tile> list in RowList)
-            {
-                foreach (Tile tile in list)
-                {
-                    if (tile.CharOnTile() == 0)
-                    {
-                        Console.Write("[ ]");
-                    }
-                    else
-                    {
-                        if (tile.CharOnTile() == 1)
-                            Console.Write("[O]");
-                        else
-                            Console.Write("[X]");
-                    }
-                }
-                Console.Write("\n");
-            }
-        }
-
-
-
-        public void ShowBoardHigh()
-        {
-            foreach (List<Tile> list in RowList)  //AFFICHAGE COLLONE
-            {
-                foreach (Tile tile in list)    //AFFICHAGE LIGNE
-                {
-                    Console.Write(tile.High + " ");
-                }
-                Console.Write("\n");
-            }
-        }
-
-
-
-
 
         public void UpdatePositionCharacter(Character character)
         {
-            //rowList[character.getPositionX()][character.getPositionY()].characterOnTile(character);
             RowList[character.PositionY][character.PositionX].Piece = character;
         }
 
@@ -89,7 +55,6 @@ namespace SP_0_1
 
         private void UpdateDirectionnalField()
         {
-            Console.WriteLine("update");
             for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
             {
                 for (int j = 0; j < SizeBoard; j++) //On parcourt les X
@@ -136,15 +101,9 @@ namespace SP_0_1
         }
 
 
-
-
-
-
-
-
-
         public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
         {
+            clearMovePossible();
             RowList[character.PositionY][character.PositionX].MovePossible = 0;
             for (int m = 0; m < character.MovePoint; m++)
             {
@@ -178,54 +137,66 @@ namespace SP_0_1
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public void showDeplacementPossible()
-        {
-            foreach (List<Tile> list in RowList) //X
-            {
-                foreach (Tile tile in list)   //Y
-                {
-                    if (tile.CharOnTile() != 0)
-                    {
-                        if (tile.CharOnTile() == 1)  //A REFAIRE
-                            Console.Write("[O]");
-                        else
-                            Console.Write("[X]");
-                    }
-                    else
-                    {
-                        if (tile.MovePossible == 300)
-                        {
-                            Console.Write("[ ]");
-                        }
-                        else
-                        {
-                            Console.Write("[*]");
-                        }
-                    }
+        private void clearMovePossible(){
+            foreach (List<Tile> list in RowList){
+                foreach (Tile tile in list){
+                    tile.MovePossible = 300;
                 }
-                Console.Write("\n");
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+        public Boolean MoveCharacter(Character Piece, int posX, int posY)
+        {
+
+            if( RowList[posY][posX].MovePossible != 300 && RowList[posY][posX].Piece == null)
+            {
+                int oldPosY = Piece.PositionY;
+                int oldPosX = Piece.PositionX;
+                Piece.PositionY = posY;
+                Piece.PositionX = posX;
+
+                RowList[posY][posX].Piece = Piece;
+                RowList[oldPosY][oldPosX].characterLeave();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -7,9 +7,10 @@ namespace SP_0_1
         static void Main(string[] args)
         {
             Board board = new Board();
-            board.ShowBoard();
+            ConsoleMVS ConsoleMVSO = new ConsoleMVS(board);
+            ConsoleMVSO.ShowBoard();
 
-            board.ShowBoardHigh();
+            ConsoleMVSO.ShowBoardHigh();
 
 
             Character hero = new Character(5, 3, 1);
@@ -17,16 +18,19 @@ namespace SP_0_1
 
             board.UpdatePositionCharacter(hero);
             board.UpdatePositionCharacter(foe);
-            //  board.ShowBoard();
             Console.WriteLine("Depart");
-            board.showDeplacementPossible();
+            ConsoleMVSO.showMovePossible();
 
+
+            Console.WriteLine("Move POSSIBLE");
+            board.UpdateMovePossible(hero);
+            ConsoleMVSO.showMovePossible();
+            ConsoleMVSO.ShowBoardHigh();
 
             Console.WriteLine("DEPLACEMENT");
+            board.MoveCharacter(hero, 2, 2);
             board.UpdateMovePossible(hero);
-            board.showDeplacementPossible();
-            board.ShowBoardHigh();
-
+            ConsoleMVSO.showMovePossible();
 
             string saisie = Console.ReadLine();
 
