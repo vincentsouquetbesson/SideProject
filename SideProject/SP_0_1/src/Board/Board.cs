@@ -6,18 +6,14 @@ namespace SP_0_1
 {
     class Board
     {
-        private List<List<Tile>> RowList = new List<List<Tile>>();
-        private int SizeBoard;
+        private List<List<Tile>> RowList;// = new List<List<Tile>>();
+        private int SizeBoard = 15;
 
         public Board()
         {
-            SizeBoard = 10;   //always square
             CreateBoard();
-            RowList[3][3].High = 2;
-            //RowList[4][4].High = 1;
-            RowList[5][5].High = 1;
-            UpdateDirectionnalField();
-            Console.WriteLine(RowList[3][3].DirEast);
+            //UpdateDirectionnalField();
+            //Console.WriteLine(RowList[3][3].DirEast);
         }
 
         public List<List<Tile>> getRowList()
@@ -25,7 +21,7 @@ namespace SP_0_1
             return RowList;
         }
 
-
+        /*
         private void CreateBoard()
         {
             for (int i = 0; i < SizeBoard; i++)
@@ -40,12 +36,18 @@ namespace SP_0_1
                 }
             }
         }
+        */
+
+        private void CreateBoard()
+        {
+            FileInput file = new FileInput();
+            RowList = file.LoadMap("montain");
+        }
 
 
 
 
-
-        public void UpdatePositionCharacter(Character character)
+            public void UpdatePositionCharacter(Character character)
         {
             RowList[character.PositionY][character.PositionX].Piece = character;
         }
@@ -102,7 +104,6 @@ namespace SP_0_1
 
 
         /*
-
         public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
         {
             clearMovePossible();
@@ -139,7 +140,7 @@ namespace SP_0_1
         */
 
 
-
+/*
         public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
         {
             clearMovePossible();
@@ -173,6 +174,56 @@ namespace SP_0_1
                 }
             }
         }
+        */
+
+
+        public void UpdateMovePossible(Character character)    //prend en compte hauteur et terrain
+        {
+            int consumeMP;
+            clearMovePossible();
+            RowList[character.PositionY][character.PositionX].MovePossible = 0;
+            for (int m = 0; m < character.MovePoint; m++)
+            {
+                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+                {
+                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                    {
+                        if (RowList[i][j].MovePossible == m && RowList[i][j].MovePossible <character.MovePoint)
+                        { //Si l'on est sur une case a traité, et qu'il reste des point de mouvement
+                            if(RowList[i][j].Type == 2){ //Sortir de l'eau ralenti
+                                consumeMP = 2;
+                            }else{  // terrain normal
+                                consumeMP = 1;
+                            }
+
+                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300)
+                            {
+                                RowList[i - 1][j].MovePossible = m + consumeMP;
+                            }
+                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300)
+                            {
+                                RowList[i + 1][j].MovePossible = m + consumeMP;
+                            }
+                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300)
+                            {
+                                RowList[i][j - 1].MovePossible = m + consumeMP;
+                            }
+                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < SizeBoard && RowList[i][j + 1].CharOnTile() != 2 && RowList[i][j + 1].MovePossible == 300)
+                            {
+                                RowList[i][j + 1].MovePossible = m + consumeMP;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
 
 
 

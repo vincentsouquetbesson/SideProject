@@ -15,8 +15,8 @@ namespace SP_0_1
         {
             FightingBoard = new Board();
             CharacterList = new List<Character>();
-
-            CharacterList.Add(new Character("hero1",5, 3, 1)); //HERO
+            
+            CharacterList.Add(new Character("hero1",9, 9, 1)); //HERO
             CharacterList.Add(new Character("hero2", 1, 1, 1)); //HERO
             CharacterList.Add(new Character("gobelin",4, 4, 2)); //FOE
 
@@ -57,6 +57,8 @@ namespace SP_0_1
         public void playFight()
         {
             ConsoleMVS ConsoleMVSO = new ConsoleMVS(FightingBoard);   //A SUPRIMER
+            ConsoleMVSO.ShowBoardHigh();
+            Console.WriteLine("ARRIVER");
             foreach (Character c in CharacterList)
             {
                 Console.WriteLine("Depart");

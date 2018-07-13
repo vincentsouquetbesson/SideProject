@@ -6,7 +6,7 @@ namespace SP_0_1
 {
     class Tile
     {
-        public int Type { get; set; }
+        public int Type { get; set; } //1.classique 2.eau 3.lave
         public double High { get; set; }
         public Character Piece { get; set; }
         public int MovePossible { get; set; }
@@ -23,6 +23,16 @@ namespace SP_0_1
             Piece = null;
             MovePossible = 300;  //300 == incorect
         }
+
+        public Tile(double high)
+        {
+            Type = 1;
+            High = high;
+            Piece = null;
+            MovePossible = 300;  //300 == incorect
+        }
+
+
 
 
         public void characterLeave()
