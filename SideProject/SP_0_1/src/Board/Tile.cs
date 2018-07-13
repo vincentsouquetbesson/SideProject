@@ -10,6 +10,7 @@ namespace SP_0_1
         public double High { get; set; }
         public Character Piece { get; set; }
         public int MovePossible { get; set; }
+        public int AttackPossible { get; set; }
 
         public double DirNorth { get; set; }
         public double DirSouth { get; set; }
@@ -22,6 +23,7 @@ namespace SP_0_1
             High = high;
             Piece = null;
             MovePossible = 300;  //300 == incorect
+            AttackPossible = 300;
         }
 
         public Tile(double high)

@@ -12,7 +12,7 @@ namespace SP_0_1
         public Board()
         {
             CreateBoard();
-            //UpdateDirectionnalField();
+            UpdateDirectionnalField();
             //Console.WriteLine(RowList[3][3].DirEast);
         }
 
@@ -21,22 +21,6 @@ namespace SP_0_1
             return RowList;
         }
 
-        /*
-        private void CreateBoard()
-        {
-            for (int i = 0; i < SizeBoard; i++)
-            {
-                RowList.Add(new List<Tile>());
-            }
-            foreach (List<Tile> list in RowList)
-            {
-                for (int i = 0; i < SizeBoard; i++)
-                {
-                    list.Add(new Tile(1, 5));
-                }
-            }
-        }
-        */
 
         private void CreateBoard()
         {
@@ -103,80 +87,6 @@ namespace SP_0_1
         }
 
 
-        /*
-        public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
-        {
-            clearMovePossible();
-            RowList[character.PositionY][character.PositionX].MovePossible = 0;
-            for (int m = 0; m < character.MovePoint; m++)
-            {
-                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
-                {
-                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
-                    {
-                        if (RowList[i][j].MovePossible == m)
-                        {
-                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2)
-                            {
-                                RowList[i - 1][j].MovePossible = m + 1;
-                            }
-                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2)
-                            {
-                                RowList[i + 1][j].MovePossible = m + 1;
-                            }
-                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2)
-                            {
-                                RowList[i][j - 1].MovePossible = m + 1;
-                            }
-                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < SizeBoard && RowList[i][j + 1].CharOnTile() != 2)
-                            {
-                                RowList[i][j + 1].MovePossible = m + 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        */
-
-
-/*
-        public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
-        {
-            clearMovePossible();
-            RowList[character.PositionY][character.PositionX].MovePossible = 0;
-            for (int m = 0; m < character.MovePoint; m++)
-            {
-                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
-                {
-                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
-                    {
-                        if (RowList[i][j].MovePossible == m)
-                        {
-                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300)
-                            {
-                                RowList[i - 1][j].MovePossible = m + 1;
-                            }
-                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300)
-                            {
-                                RowList[i + 1][j].MovePossible = m + 1;
-                            }
-                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300)
-                            {
-                                RowList[i][j - 1].MovePossible = m + 1;
-                            }
-                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < SizeBoard && RowList[i][j + 1].CharOnTile() != 2 && RowList[i][j + 1].MovePossible == 300)
-                            {
-                                RowList[i][j + 1].MovePossible = m + 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        */
-
-
         public void UpdateMovePossible(Character character)    //prend en compte hauteur et terrain
         {
             int consumeMP;
@@ -197,11 +107,11 @@ namespace SP_0_1
                             }
 
                             if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300)
-                            {
+                            {  // Vers le Nord ( 0<-
                                 RowList[i - 1][j].MovePossible = m + consumeMP;
                             }
                             if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300)
-                            {
+                            { //Vers le sud 0->
                                 RowList[i + 1][j].MovePossible = m + consumeMP;
                             }
                             if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300)
@@ -282,6 +192,60 @@ namespace SP_0_1
 
 
 
+        public void UpdateBowAttackPossible(Character character)    //prend en compte hauteur et terrain
+        {
+            double initialH = RowList[character.PositionY][character.PositionX].High;
+            clearAttackPossible();
+            RowList[character.PositionY][character.PositionX].AttackPossible = 0;
+            for (int m = 0; m < 7; m++)
+            {
+                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+                {
+                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                    {
+                        if (RowList[i][j].AttackPossible == m )
+                        {
+                            if (i - 1 >= 0 && RowList[i - 1][j].AttackPossible == 300)
+                            { //Si sa sort pas
+                                RowList[i - 1][j].AttackPossible = m + 1;
+                            }
+                            if (i + 1 < SizeBoard && RowList[i + 1][j].AttackPossible == 300)
+                            { //Vers le sud 0->
+                                RowList[i + 1][j].AttackPossible = m + 1;
+                            }
+                            if (j - 1 >= 0 && RowList[i][j - 1].AttackPossible == 300)
+                            {
+                                RowList[i][j - 1].AttackPossible = m + 1;
+                            }
+                            if (j + 1 < SizeBoard && RowList[i][j + 1].AttackPossible == 300)
+                            {
+                                RowList[i][j + 1].AttackPossible = m + 1;
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (List<Tile> list in RowList)
+            {
+                foreach (Tile tile in list)
+                {
+                    if(tile.AttackPossible < 4)
+                        tile.AttackPossible = 300;
+                }
+            }
+
+        }
+
+        private void clearAttackPossible()
+        {
+            foreach (List<Tile> list in RowList)
+            {
+                foreach (Tile tile in list)
+                {
+                    tile.AttackPossible = 300;
+                }
+            }
+        }
 
 
 

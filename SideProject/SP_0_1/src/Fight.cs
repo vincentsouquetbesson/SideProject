@@ -69,6 +69,9 @@ namespace SP_0_1
                 FightingBoard.UpdateMovePossible(c);
                 ConsoleMVSO.showMovePossible();
             }
+            FightingBoard.UpdateBowAttackPossible(CharacterList[2]);
+            ConsoleMVSO.showAttackPossible();
+            
         }
 
 

@@ -88,6 +88,45 @@ namespace SP_0_1
 
 
 
+        public void showAttackPossible()
+        {
+            List<List<Tile>> rowList = Board.getRowList();
+            foreach (List<Tile> list in rowList) //X
+            {
+                foreach (Tile tile in list)   //Y
+                {
+                    if (tile.CharOnTile() != 0)
+                    {
+                        if (tile.CharOnTile() == 1)  //A REFAIRE
+                            Console.Write("[O]");
+                        else
+                            Console.Write("[X]");
+                    }
+                    else
+                    {
+                        if (tile.AttackPossible == 300)
+                        {
+                            Console.Write("[ ]");
+                        }
+                        else
+                        {
+                            Console.Write("[" + tile.AttackPossible + "]");
+                        }
+                    }
+                }
+                Console.Write("\n");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
     }
 
