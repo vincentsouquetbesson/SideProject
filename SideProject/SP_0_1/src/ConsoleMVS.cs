@@ -76,7 +76,7 @@ namespace SP_0_1
                         }
                         else
                         {
-                            Console.Write("[*]");
+                            Console.Write("["+tile.MovePossible+"]");
                         }
                     }
                 }

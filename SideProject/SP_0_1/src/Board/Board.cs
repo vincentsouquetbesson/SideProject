@@ -101,6 +101,8 @@ namespace SP_0_1
         }
 
 
+        /*
+
         public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
         {
             clearMovePossible();
@@ -133,9 +135,47 @@ namespace SP_0_1
                     }
                 }
             }
-
-
         }
+        */
+
+
+
+        public void UpdateMovePossible(Character character)    //juste mais ne prend pas en compte la hauteur
+        {
+            clearMovePossible();
+            RowList[character.PositionY][character.PositionX].MovePossible = 0;
+            for (int m = 0; m < character.MovePoint; m++)
+            {
+                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+                {
+                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                    {
+                        if (RowList[i][j].MovePossible == m)
+                        {
+                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300)
+                            {
+                                RowList[i - 1][j].MovePossible = m + 1;
+                            }
+                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300)
+                            {
+                                RowList[i + 1][j].MovePossible = m + 1;
+                            }
+                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300)
+                            {
+                                RowList[i][j - 1].MovePossible = m + 1;
+                            }
+                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < SizeBoard && RowList[i][j + 1].CharOnTile() != 2 && RowList[i][j + 1].MovePossible == 300)
+                            {
+                                RowList[i][j + 1].MovePossible = m + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
 
         private void clearMovePossible(){
             foreach (List<Tile> list in RowList){
