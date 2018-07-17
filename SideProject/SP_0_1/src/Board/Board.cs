@@ -196,6 +196,9 @@ namespace SP_0_1
         {
             double initialH = RowList[character.PositionY][character.PositionX].High;
             clearAttackPossible();
+            int atkRange;
+            int bonusMeme; 
+
             RowList[character.PositionY][character.PositionX].AttackPossible = 0;
             for (int m = 0; m < 7; m++)
             {
@@ -205,21 +208,32 @@ namespace SP_0_1
                     {
                         if (RowList[i][j].AttackPossible == m )
                         {
+                            double high =  RowList[character.PositionY][character.PositionX].High - RowList[i][j].High ;
+                            if (high < 0 ) // Si on attaque un foe plus haut
+                            { //Sortir de l'eau ralenti
+                                atkRange = 1 + Convert.ToInt32(Math.Abs(high));
+                            }
+                            else
+                            {  // terrain normal
+                                atkRange = 1;
+                                bonusMeme = Convert.ToInt32(high) / 2;
+                            }
+
                             if (i - 1 >= 0 && RowList[i - 1][j].AttackPossible == 300)
                             { //Si sa sort pas
-                                RowList[i - 1][j].AttackPossible = m + 1;
+                                RowList[i - 1][j].AttackPossible = m + atkRange;
                             }
                             if (i + 1 < SizeBoard && RowList[i + 1][j].AttackPossible == 300)
                             { //Vers le sud 0->
-                                RowList[i + 1][j].AttackPossible = m + 1;
+                                RowList[i + 1][j].AttackPossible = m + atkRange;
                             }
                             if (j - 1 >= 0 && RowList[i][j - 1].AttackPossible == 300)
                             {
-                                RowList[i][j - 1].AttackPossible = m + 1;
+                                RowList[i][j - 1].AttackPossible = m + atkRange;
                             }
                             if (j + 1 < SizeBoard && RowList[i][j + 1].AttackPossible == 300)
                             {
-                                RowList[i][j + 1].AttackPossible = m + 1;
+                                RowList[i][j + 1].AttackPossible = m + atkRange;
                             }
                         }
                     }
@@ -229,7 +243,7 @@ namespace SP_0_1
             {
                 foreach (Tile tile in list)
                 {
-                    if(tile.AttackPossible < 4)
+                    if(tile.AttackPossible < 4 || tile.AttackPossible > 7)
                         tile.AttackPossible = 300;
                 }
             }
@@ -243,6 +257,7 @@ namespace SP_0_1
                 foreach (Tile tile in list)
                 {
                     tile.AttackPossible = 300;
+                    tile.LigneOfSight = true;
                 }
             }
         }

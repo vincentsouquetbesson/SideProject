@@ -17,6 +17,8 @@ namespace SP_0_1
         public double DirEast { get; set; }
         public double DirWest { get; set; }
 
+        public Boolean LigneOfSight { get; set; }
+
         public Tile(int type, double high)
         {
             Type = type;
