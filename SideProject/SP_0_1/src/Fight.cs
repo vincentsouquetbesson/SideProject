@@ -9,22 +9,25 @@ namespace SP_0_1
 
         Board FightingBoard;
 
-        List<Character> CharactersTurnList;
+        //List<Character> CharactersTurnList;
+        List<Character> CharacterList;
+        List<Character> charactersBufferList;
 
 
         public Fight( List<Character>heroList)
         {
             FightingBoard = new Board();
-            List<Character> CharacterList = new List<Character>();
+
+            CharacterList = new List<Character>();
 
             ChooseCharacterPosition(heroList); 
 
             CharacterList = new List<Character>( heroList );
-           // CharacterList = heroList;   //On copie la liste des hero dans la liste du combat
+            // CharacterList = heroList;   //On copie la liste des hero dans la liste du combat
 
             //INITIATIVE
 
-
+            charactersBufferList = new List<Character>();
 
             CharacterList.Add(new Character("gobelin",4, 4, 2)); //FOE
             CharacterList[2].InitBaseStat(5, 7, 7, 15);
@@ -34,7 +37,7 @@ namespace SP_0_1
                 FightingBoard.UpdatePositionCharacter(c);
                 c.Counter = 0;
             }
-            createTurn(CharacterList);
+            //SetTurn(CharacterList);
 
         }
 
@@ -45,7 +48,7 @@ namespace SP_0_1
             heroList[1].move(9, 8);
         }
 
-
+/*
         public void playFightLIDL()
         {
             ConsoleMVS ConsoleMVSO = new ConsoleMVS(FightingBoard);   //A SUPRIMER
@@ -70,10 +73,10 @@ namespace SP_0_1
             FightingBoard.UpdateMovePossible(CharactersTurnList[0]);
             ConsoleMVSO.showMovePossible();
         }
+*/
 
-
-
-        public void playFight()
+        /*
+        public void PlayFight()
         {
             ConsoleMVS ConsoleMVSO = new ConsoleMVS(FightingBoard);   //A SUPRIMER
             ConsoleMVSO.ShowTurn(CharactersTurnList);
@@ -93,62 +96,146 @@ namespace SP_0_1
             ConsoleMVSO.showAttackPossible();
             
         }
-
-
-
-
-        public void createTurn(List<Character> charactersList)
+        */
+        public void PlayFight()
         {
-            int nbTurn = 0;
-            CharactersTurnList = new List<Character>();
-            List<Character> charactersBufferList = new List<Character>();
-            while(nbTurn < 10) { 
-                foreach (Character c in charactersList)
-                {
-                    c.Counter += c.Initiative;
-                    if (c.Counter >= 100)
-                    {
-                        c.Counter -= 100;
-                        charactersBufferList.Add(c);
+            ConsoleMVS ConsoleMVSO = new ConsoleMVS(FightingBoard);   //A SUPRIMER
+            // ConsoleMVSO.ShowTurn(CharactersTurnList);
+            Console.WriteLine("HIGH");
+            ConsoleMVSO.ShowBoardHigh();
 
-                    }
-                }
-                if (charactersBufferList.Count > 0)
+            Character c;
+
+            for (int i = 0; i < 5;i++)
+            {
+                c = NextTurn();
+                Console.WriteLine("Depart " + c.Name + " " + c.PositionX + " " + c.PositionY);
+                FightingBoard.UpdateMovePossible(c);
+                ConsoleMVSO.showMovePossible();
+                FightingBoard.MoveCharacter(c, c.PositionX + 1, c.PositionY);
+                Console.WriteLine("ARRIVER");
+                FightingBoard.UpdateMovePossible(c);
+                ConsoleMVSO.showMovePossible();
+            }
+        //    FightingBoard.UpdateBowAttackPossible( c );
+        //    ConsoleMVSO.showAttackPossible();
+
+        }
+
+
+
+
+
+
+
+        /*
+                public void SetTurn(List<Character> charactersList)
                 {
-                    if (charactersBufferList.Count == 1)
-                    {
-                        CharactersTurnList.Add(charactersBufferList[0]);
-                        charactersBufferList.RemoveAt(0);
-                        nbTurn++;
-                    }
-                    else
-                    {
-                        Character characterBuffer = null;
-                        while (charactersBufferList.Count != 0)
+                    int nbTurn = 0;
+                    CharactersTurnList = new List<Character>();
+                    List<Character> charactersBufferList = new List<Character>();
+                    while(nbTurn < 10) { 
+                        foreach (Character c in charactersList)
                         {
-                            characterBuffer = charactersBufferList[0];
-                            foreach (Character c in charactersBufferList)
+                            c.Counter += c.Initiative;
+                            if (c.Counter >= c.GoalCounter)
                             {
-                                if (characterBuffer.Counter < c.Counter)
-                                {
-                                    characterBuffer = c;
-                                }
+                                c.Counter -= c.GoalCounter;
+                                charactersBufferList.Add(c);
+
                             }
-                            CharactersTurnList.Add(characterBuffer);
-                            charactersBufferList.Remove(characterBuffer);
-                            nbTurn++;
+                        }
+                        if (charactersBufferList.Count > 0)
+                        {
                             if (charactersBufferList.Count == 1)
                             {
                                 CharactersTurnList.Add(charactersBufferList[0]);
                                 charactersBufferList.RemoveAt(0);
                                 nbTurn++;
                             }
+                            else
+                            {
+                                Character characterBuffer = null;
+                                while (charactersBufferList.Count != 0)
+                                {
+                                    characterBuffer = charactersBufferList[0];
+                                    foreach (Character c in charactersBufferList)
+                                    {
+                                        if (characterBuffer.Counter < c.Counter)
+                                        {
+                                            characterBuffer = c;
+                                        }
+                                    }
+                                    CharactersTurnList.Add(characterBuffer);
+                                    charactersBufferList.Remove(characterBuffer);
+                                    nbTurn++;
+                                    if (charactersBufferList.Count == 1)
+                                    {
+                                        CharactersTurnList.Add(charactersBufferList[0]);
+                                        charactersBufferList.RemoveAt(0);
+                                        nbTurn++;
+                                    }
+                                }
+                            }
                         }
                     }
+
+                }
+                */
+
+        public Character NextTurn()
+        {
+           // CharactersTurnList = new List<Character>();
+            if(charactersBufferList.Count > 0)  //si il reste des perso dans le buffer
+            {
+                return getNextcharacter();
+            }
+            while (true)
+            {
+                foreach (Character c in CharacterList)
+                {
+                    c.Counter += c.Initiative;
+                    if (c.Counter >= c.GoalCounter)
+                    { 
+                        c.Counter -= c.GoalCounter;
+                        charactersBufferList.Add(c);
+
+                    }
+                }
+                if (charactersBufferList.Count > 0)
+                {
+                    return getNextcharacter();
                 }
             }
-
+            return null;
         }
+
+
+        public Character getNextcharacter()
+        {
+            Character characterBuffer;
+            if (charactersBufferList.Count == 1) //Si il reste uniquement un perso dans le buffer
+            {
+                characterBuffer = charactersBufferList[0];
+                charactersBufferList.Remove(characterBuffer);
+                return characterBuffer;
+            }
+            else
+            {
+                characterBuffer = charactersBufferList[0];
+                foreach (Character c in charactersBufferList)
+                {
+                    if (characterBuffer.Counter < c.Counter)
+                    {
+                        characterBuffer = c;
+                    }
+                }
+                charactersBufferList.Remove(characterBuffer);
+                return characterBuffer;
+            }
+        }
+
+
 
 
 

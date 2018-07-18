@@ -19,6 +19,7 @@ namespace SP_0_1
         public int Initiative;
 
         public int Counter;
+        public int GoalCounter = 100;
 
 
         public Character(String name,int positionX, int positionY, int team) //pour le reste

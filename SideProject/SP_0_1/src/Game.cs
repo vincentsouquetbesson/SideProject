@@ -23,7 +23,7 @@ namespace SP_0_1
 
             Fight fight = new Fight(HeroCharacterList);
             //fight.playFightLIDL();
-            fight.playFight();
+            fight.PlayFight();
         }
 
 
