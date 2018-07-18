@@ -6,9 +6,11 @@ namespace SP_0_1
 {
     class Game
     {
+        List<Character> HeroCharacterList;
+
         public Game()
         {
-
+            HeroCharacterList = new List<Character>();
         }
 
 
@@ -16,11 +18,23 @@ namespace SP_0_1
 
         public void playGame()
         {
-            Fight fight = new Fight();
+            InitHeroCharacter();
+
+
+            Fight fight = new Fight(HeroCharacterList);
             //fight.playFightLIDL();
             fight.playFight();
         }
 
+
+        public void InitHeroCharacter()
+        {
+            HeroCharacterList.Add(new Character("Ramza",1)); //HERO
+            HeroCharacterList.Add(new Character("Delita", 1)); //HERO
+
+            HeroCharacterList[0].InitBaseStat(1, 5, 1, 10);
+            HeroCharacterList[1].InitBaseStat(1, 1, 6, 8);
+        }
 
 
 

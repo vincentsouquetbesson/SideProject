@@ -122,7 +122,15 @@ namespace SP_0_1
 
 
 
-
+        public void ShowTurn(List<Character> turnList)
+        {
+            List<List<Tile>> rowList = Board.getRowList();
+            foreach (Character c in turnList)
+            {
+                Console.Write(c.Name+"  ");
+            }
+            Console.Write("\n");
+        }
 
 
 
