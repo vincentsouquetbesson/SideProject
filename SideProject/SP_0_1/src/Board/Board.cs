@@ -9,6 +9,10 @@ namespace SP_0_1
         private List<List<Tile>> RowList;// = new List<List<Tile>>();
         private int SizeBoard = 15;
 
+        public int Width  { get; set; }
+        public int Height { get; set; }
+        public List<Character> CharactersBufferList { get; set; }
+
         public Board()
         {
             CreateBoard();
@@ -25,13 +29,16 @@ namespace SP_0_1
         private void CreateBoard()
         {
             FileInput file = new FileInput();
-            RowList = file.LoadMap("montain");
+            RowList = file.LoadMap("t9");
+            Width = file.Width;
+            Height = file.Height;
+            CharactersBufferList = file.CharactersBufferList;
         }
 
 
 
 
-            public void UpdatePositionCharacter(Character character)
+        public void UpdatePositionCharacter(Character character)
         {
             RowList[character.PositionY][character.PositionX].Piece = character;
         }
@@ -41,12 +48,12 @@ namespace SP_0_1
 
         private void UpdateDirectionnalField()
         {
-            for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+            for (int i = 0; i < Height; i++) // On parcourt les Y
             {
-                for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                for (int j = 0; j < Width; j++) //On parcourt les X
                 {
-                    if (i == 0 || i == SizeBoard - 1)
-                    {
+                    if (i == 0 || i == Height - 1)
+                    {   // GESTION DU BORD DE LA MAP OU DE CASE QUI N'EXISTE PAS
                         if (i == 0)
                         {
                             RowList[i][j].DirNorth = 100;
@@ -64,7 +71,7 @@ namespace SP_0_1
                         RowList[i][j].DirSouth = RowList[i + 1][j].High - RowList[i][j].High;
                     }
 
-                    if (j == 0 || j == SizeBoard - 1)
+                    if (j == 0 || j == Width - 1)
                     {
                         if (j == 0)
                         {
@@ -94,9 +101,9 @@ namespace SP_0_1
             RowList[character.PositionY][character.PositionX].MovePossible = 0;
             for (int m = 0; m < character.MovePoint; m++)
             {
-                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+                for (int i = 0; i < Height; i++) // On parcourt les Y
                 {
-                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                    for (int j = 0; j < Width; j++) //On parcourt les X
                     {
                         if (RowList[i][j].MovePossible == m && RowList[i][j].MovePossible <character.MovePoint)
                         { //Si l'on est sur une case a traité, et qu'il reste des point de mouvement
@@ -106,19 +113,19 @@ namespace SP_0_1
                                 consumeMP = 1;
                             }
 
-                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300)
+                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300 && RowList[i - 1][j].Type != 0)
                             {  // Vers le Nord ( 0<-
                                 RowList[i - 1][j].MovePossible = m + consumeMP;
                             }
-                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < SizeBoard && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300)
+                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < Height && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300 && RowList[i + 1][j].Type != 0)
                             { //Vers le sud 0->
                                 RowList[i + 1][j].MovePossible = m + consumeMP;
                             }
-                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300)
+                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300 && RowList[i][j - 1].Type != 0)
                             {
                                 RowList[i][j - 1].MovePossible = m + consumeMP;
                             }
-                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < SizeBoard && RowList[i][j + 1].CharOnTile() != 2 && RowList[i][j + 1].MovePossible == 300)
+                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < Width && RowList[i][j + 1].CharOnTile() != 2 && RowList[i][j + 1].MovePossible == 300 && RowList[i][j + 1].Type != 0)
                             {
                                 RowList[i][j + 1].MovePossible = m + consumeMP;
                             }
@@ -202,9 +209,9 @@ namespace SP_0_1
             RowList[character.PositionY][character.PositionX].AttackPossible = 0;
             for (int m = 0; m < 7; m++)
             {
-                for (int i = 0; i < SizeBoard; i++) // On parcourt les Y
+                for (int i = 0; i < Height; i++) // On parcourt les Y
                 {
-                    for (int j = 0; j < SizeBoard; j++) //On parcourt les X
+                    for (int j = 0; j < Width; j++) //On parcourt les X
                     {
                         if (RowList[i][j].AttackPossible == m )
                         {
@@ -223,7 +230,7 @@ namespace SP_0_1
                             { //Si sa sort pas
                                 RowList[i - 1][j].AttackPossible = m + atkRange;
                             }
-                            if (i + 1 < SizeBoard && RowList[i + 1][j].AttackPossible == 300)
+                            if (i + 1 < Height && RowList[i + 1][j].AttackPossible == 300)
                             { //Vers le sud 0->
                                 RowList[i + 1][j].AttackPossible = m + atkRange;
                             }
@@ -231,7 +238,7 @@ namespace SP_0_1
                             {
                                 RowList[i][j - 1].AttackPossible = m + atkRange;
                             }
-                            if (j + 1 < SizeBoard && RowList[i][j + 1].AttackPossible == 300)
+                            if (j + 1 < Width && RowList[i][j + 1].AttackPossible == 300)
                             {
                                 RowList[i][j + 1].AttackPossible = m + atkRange;
                             }

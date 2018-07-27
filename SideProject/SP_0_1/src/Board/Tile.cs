@@ -6,7 +6,7 @@ namespace SP_0_1
 {
     class Tile
     {
-        public int Type { get; set; } //1.classique 2.eau 3.lave
+        public int Type { get; set; } //0.Existe pas  1.classique 2.eau 3.lave
         public double High { get; set; }
         public Character Piece { get; set; }
         public int MovePossible { get; set; }
@@ -16,6 +16,8 @@ namespace SP_0_1
         public double DirSouth { get; set; }
         public double DirEast { get; set; }
         public double DirWest { get; set; }
+
+        private Dictionary<string, int> castList = new Dictionary<string, int>();
 
         public Boolean LigneOfSight { get; set; }
 
@@ -27,6 +29,8 @@ namespace SP_0_1
             MovePossible = 300;  //300 == incorect
             AttackPossible = 300;
         }
+
+
 
         public Tile(double high)
         {

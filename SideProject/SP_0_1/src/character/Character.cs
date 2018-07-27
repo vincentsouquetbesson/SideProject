@@ -22,13 +22,14 @@ namespace SP_0_1
         public int GoalCounter = 100;
 
 
+        public Character() { } //heritage
+
         public Character(String name,int positionX, int positionY, int team) //pour le reste
         {
             Name = name;
             PositionX = positionX;
             PositionY = positionY;
             Team = team;
-            MovePoint = 4;
         }
 
         public Character(String name, int team) //pour les hero 
@@ -39,13 +40,14 @@ namespace SP_0_1
         }
 
 
-        public void InitBaseStat( int lvl, int force, int intel , int initiative)
+        public void InitBaseStat( int lvl, int force, int intel , int initiative, int movePoint)
         {
             Lvl = lvl;
             exp = 0;
             Force = force;
             Intel = intel;
             Initiative = initiative;
+            MovePoint = movePoint;
         }
 
 

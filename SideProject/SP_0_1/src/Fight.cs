@@ -27,10 +27,17 @@ namespace SP_0_1
 
             //INITIATIVE
 
-            charactersBufferList = new List<Character>();
+            charactersBufferList = FightingBoard.CharactersBufferList;
+            foreach (Character c in charactersBufferList)
+            {
+                c.InitBaseStat(10,10,10,80,2);
+            }
 
-            CharacterList.Add(new Character("gobelin",4, 4, 2)); //FOE
-            CharacterList[2].InitBaseStat(5, 7, 7, 15);
+            CharacterList.AddRange(charactersBufferList);
+
+            //CharacterList.Add(new Character("gobelin",10, 4, 2)); //FOE
+            //CharacterList.Add(new Character("gobelin", 10, 4, 2)); //FOE
+            //CharacterList[2].InitBaseStat(5, 7, 7, 15,2);
 
             foreach (Character c in CharacterList)
             {
@@ -38,14 +45,14 @@ namespace SP_0_1
                 c.Counter = 0;
             }
             //SetTurn(CharacterList);
-
+            
         }
 
 
         public void ChooseCharacterPosition(List<Character> heroList)
         {
-            heroList[0].move(1, 1);
-            heroList[1].move(9, 8);
+            heroList[0].move(1, 4);
+            heroList[1].move(5, 4);
         }
 
 /*

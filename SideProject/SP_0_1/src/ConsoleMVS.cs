@@ -24,7 +24,14 @@ namespace SP_0_1
                 {
                     if (tile.CharOnTile() == 0)
                     {
-                        Console.Write("[ ]");
+                        if(tile.Type != 0)
+                        {
+                            Console.Write("[ ]");
+                        }
+                        else
+                        {
+                            Console.Write("   ");
+                        }
                     }
                     else
                     {
@@ -46,7 +53,14 @@ namespace SP_0_1
             {
                 foreach (Tile tile in list)    //AFFICHAGE LIGNE
                 {
-                    Console.Write(tile.High + " ");
+                    if (tile.Type != 0) 
+                    { //Si la case existe on l'affiche
+                        Console.Write(tile.High + " ");
+                    }
+                    else
+                    {   // Si la case n'existe pas on fait un plus grand espace
+                        Console.Write("  ");
+                    }
                 }
                 Console.Write("\n");
             }
@@ -70,9 +84,16 @@ namespace SP_0_1
                     }
                     else
                     {
-                        if (tile.MovePossible == 300)
+                        if (tile.MovePossible == 300) // Si le mouvement est impossible
                         {
-                            Console.Write("[ ]");
+                            if (tile.Type != 0)
+                            {
+                                Console.Write("[ ]");
+                            }
+                            else
+                            {
+                                Console.Write("   ");
+                            }
                         }
                         else
                         {

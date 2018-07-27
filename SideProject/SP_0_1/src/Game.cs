@@ -32,8 +32,8 @@ namespace SP_0_1
             HeroCharacterList.Add(new Character("Ramza",1)); //HERO
             HeroCharacterList.Add(new Character("Delita", 1)); //HERO
 
-            HeroCharacterList[0].InitBaseStat(1, 5, 1, 10);
-            HeroCharacterList[1].InitBaseStat(1, 1, 6, 8);
+            HeroCharacterList[0].InitBaseStat(1, 5, 1, 10,4);
+            HeroCharacterList[1].InitBaseStat(1, 1, 6, 8,4);
         }
 
 
