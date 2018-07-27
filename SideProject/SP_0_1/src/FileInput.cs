@@ -45,13 +45,13 @@ namespace SP_0_1
                     {
                         int r;
                         r = Int32.Parse(parts[i + Width + 1]); //conversion du type de terrain
-                        rowList[y].Add(new Tile(r,Convert.ToDouble(parts[i]))); 
+                        rowList[y].Add(new Tile(r,Convert.ToDouble(parts[i])));  //nouvelle case (terrain /hauteur)
                     }
                     y++; //on passe a la ligne suivante
                     if(y >= Height)  //Si on a parcouru toute les lignes du plateau
                     {
-                        state = 3;
-                        continue;
+                        state = 3; // etat suivant 
+                        continue;  //On passe a la ligne suivante
                     }
                 }
                 if(state == 3)
@@ -62,7 +62,7 @@ namespace SP_0_1
                                                 Int32.Parse(parts[4]),
                                                 Int32.Parse(parts[5])));
                     }
-                    else
+                    else // Si c'est un pnj allié
                     {
                         CharactersBufferList.Add(new Character(parts[2],
                                                 Int32.Parse(parts[4]),
