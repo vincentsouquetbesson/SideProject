@@ -45,7 +45,6 @@ namespace SP_0_1
 
         public void heavenFall()
         {
-            
             if (cast == false) //Si l'attaque n'a pas été lancé
             {
                 Console.WriteLine("Heaven's Fall cast");
