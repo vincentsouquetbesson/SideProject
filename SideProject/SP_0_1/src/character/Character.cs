@@ -20,6 +20,7 @@ namespace SP_0_1
 
         public int Counter;
         public int GoalCounter = 100;
+        public Board FightingBoard;
 
 
         public Character() { } //heritage
@@ -56,6 +57,18 @@ namespace SP_0_1
             PositionX = positionX;
             PositionY = positionY;
         }
+
+        public virtual void Attack()
+        {
+            Console.WriteLine(Name + " attack");
+        }
+
+        public virtual void setBoard(Board fightingBoard)
+        {
+            FightingBoard = fightingBoard;
+        }
+
+
 
     }
 }

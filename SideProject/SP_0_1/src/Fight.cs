@@ -27,10 +27,12 @@ namespace SP_0_1
 
             //INITIATIVE
 
+            
             charactersBufferList = FightingBoard.CharactersBufferList;
             foreach (Character c in charactersBufferList)
             {
                 c.InitBaseStat(10,10,10,80,2);
+                c.setBoard(FightingBoard);
             }
 
             CharacterList.AddRange(charactersBufferList);
@@ -104,12 +106,17 @@ namespace SP_0_1
             
         }
         */
+
+
+
         public void PlayFight()
         {
             ConsoleMVS ConsoleMVSO = new ConsoleMVS(FightingBoard);   //A SUPRIMER
             // ConsoleMVSO.ShowTurn(CharactersTurnList);
             Console.WriteLine("HIGH");
             ConsoleMVSO.ShowBoardHigh();
+            Console.WriteLine("TYPE");
+            ConsoleMVSO.ShowBoardType();
 
             Character c;
 
@@ -123,9 +130,14 @@ namespace SP_0_1
                 Console.WriteLine("ARRIVER");
                 FightingBoard.UpdateMovePossible(c);
                 ConsoleMVSO.showMovePossible();
+                c.Attack();
             }
-        //    FightingBoard.UpdateBowAttackPossible( c );
-        //    ConsoleMVSO.showAttackPossible();
+
+            Console.WriteLine("TYPE");
+            ConsoleMVSO.ShowBoardType();
+
+            //    FightingBoard.UpdateBowAttackPossible( c );
+            //    ConsoleMVSO.showAttackPossible();
 
         }
 

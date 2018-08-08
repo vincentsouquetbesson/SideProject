@@ -17,7 +17,7 @@ namespace SP_0_1
         public double DirEast { get; set; }
         public double DirWest { get; set; }
 
-        private Dictionary<string, int> castList = new Dictionary<string, int>();
+        public Dictionary<string, int> CastList;
 
         public Boolean LigneOfSight { get; set; }
 
@@ -28,6 +28,8 @@ namespace SP_0_1
             Piece = null;
             MovePossible = 300;  //300 == incorect
             AttackPossible = 300;
+            CastList = new Dictionary<string, int>();
+            CastList.Add("a", 0);
         }
 
 
@@ -38,6 +40,10 @@ namespace SP_0_1
             High = high;
             Piece = null;
             MovePossible = 300;  //300 == incorect
+
+
+            CastList = new Dictionary<string, int>();
+            CastList.Add("a", 0);
         }
 
 

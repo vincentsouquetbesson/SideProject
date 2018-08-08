@@ -58,9 +58,21 @@ namespace SP_0_1
                 {
                     if(parts[1] == "2") // si c'est un enemi
                     {
-                        CharactersBufferList.Add(new FOE(parts[2],
+                        if (parts[3] == "1")
+                        {
+                            Console.WriteLine("boss");
+                            CharactersBufferList.Add(new FOE(parts[2],
+                                                true,
                                                 Int32.Parse(parts[4]),
                                                 Int32.Parse(parts[5])));
+                        }
+                        else
+                        {
+                            CharactersBufferList.Add(new FOE(parts[2],
+                                                Int32.Parse(parts[4]),
+                                                Int32.Parse(parts[5])));
+                        }
+                        
                     }
                     else // Si c'est un pnj allié
                     {

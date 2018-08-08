@@ -20,7 +20,7 @@ namespace SP_0_1
             //Console.WriteLine(RowList[3][3].DirEast);
         }
 
-        public List<List<Tile>> getRowList()
+        public List<List<Tile>> GetRowList()
         {
             return RowList;
         }
@@ -32,6 +32,7 @@ namespace SP_0_1
             RowList = file.LoadMap("t9");
             Width = file.Width;
             Height = file.Height;
+            Console.WriteLine(Height);
             CharactersBufferList = file.CharactersBufferList;
         }
 
@@ -169,11 +170,6 @@ namespace SP_0_1
 
 
 
-
-
-        
-
-
         public Boolean MoveCharacter(Character Piece, int posX, int posY)
         {
 
@@ -269,14 +265,123 @@ namespace SP_0_1
             }
         }
 
+        private void clearCastPossible(String key)
+        {
+            foreach (List<Tile> list in RowList)
+            {
+                foreach (Tile tile in list)
+                {
+                    int buffer;
+                    if (tile.CastList.TryGetValue(key, out buffer))
+                    {  //Si la clé de map a été trouvé sur cette case
+                        tile.CastList[key] = 300;
+                    }
+                }
+            }
+        }
 
 
 
 
+        public void CreateAOE(String key, int size, int posX, int posY)    //prend en compte hauteur et terrain
+        {
 
 
 
+            Console.WriteLine("aoe: " + posX + "," + posY);
+            Console.WriteLine(RowList[posY][posX].High);
+            RowList[posY][posX].CastList.Add(key,0);
+            for (int m = 1; m <= size; m++)
+            {
+                for (int i = 0; i < Height; i++) // On parcourt les Y
+                {
+                    for (int j = 0; j < Width; j++) //On parcourt les X
+                    {
+                        int value;
+                        bool result = RowList[i][j].CastList.TryGetValue(key, out value);
+                        if ( result == false  || value == 300)
+                        {  //Si la clé de map a été trouvé sur cette case
+                            continue;
+                        }
 
+                        { //Si l'on est sur une case a traité, et qu'il reste des point de mouvement
+                            Console.WriteLine("B");
+                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0  && RowList[i - 1][j].Type != 0 && value == m-1 )
+                            {  // Vers le Nord ( 0<-
+                                if (result == true)
+                                {
+                                    RowList[i - 1][j].CastList[key] = m;
+                                }
+                                else
+                                {
+                                    RowList[i - 1][j].CastList.Add(key, m);
+                                }
+                            }
+                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < Height && RowList[i + 1][j].Type != 0 && value == m - 1)
+                            { //Vers le sud 0->
+                                if (result == true)
+                                {
+                                    RowList[i + 1][j].CastList[key] = m;
+                                }
+                                else
+                                {
+                                    RowList[i + 1][j].CastList.Add(key, m);
+                                }
+                            }
+                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].Type != 0 && value == m - 1)
+                            {
+                                if (result == true)
+                                {
+                                    RowList[i][j - 1].CastList[key] = m;
+                                }
+                                else
+                                {
+                                    RowList[i][j - 1].CastList.Add(key, m);
+                                }
+                            }
+                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < Width && RowList[i][j + 1].Type != 0 && value == m - 1)
+                            {
+                                if (result == true)
+                                {
+                                    RowList[i][j + 1].CastList[key] = m;
+                                }
+                                else
+                                {
+                                    RowList[i][j + 1].CastList.Add(key, m);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
+        public void UpdateAOE(String key, int damage, int newType)
+        {
+            Console.WriteLine("update AOE");
+            foreach (List<Tile> list in RowList)
+            {
+                foreach (Tile tile in list)
+                {
+                    int value;
+                    bool result = tile.CastList.TryGetValue(key, out value);
+                    if (result == true && value != 300)
+                    {  //Si la clé de map a été trouvé sur cette case
+                    Console.WriteLine("A");
+                        if ( newType != 99)
+                        {
+                            tile.Type = newType;
+                        }
+                        if( tile.CharOnTile() != 0)
+                        {
+                            //A FAIRE
+                        }
+                    }
+                }
+            }
+        }
     }
+
+
+
 }

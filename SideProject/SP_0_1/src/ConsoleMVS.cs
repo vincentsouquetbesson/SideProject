@@ -17,7 +17,7 @@ namespace SP_0_1
 
         public void ShowBoard()
         {
-            List<List<Tile>> rowList = Board.getRowList();
+            List<List<Tile>> rowList = Board.GetRowList();
             foreach (List<Tile> list in rowList)
             {
                 foreach (Tile tile in list)
@@ -48,7 +48,7 @@ namespace SP_0_1
 
         public void ShowBoardHigh()
         {
-            List<List<Tile>> rowList = Board.getRowList();
+            List<List<Tile>> rowList = Board.GetRowList();
             foreach (List<Tile> list in rowList)  //AFFICHAGE COLLONE
             {
                 foreach (Tile tile in list)    //AFFICHAGE LIGNE
@@ -66,11 +66,34 @@ namespace SP_0_1
             }
         }
 
+        public void ShowBoardType()
+        {
+            List<List<Tile>> rowList = Board.GetRowList();
+            foreach (List<Tile> list in rowList)  //AFFICHAGE COLLONE
+            {
+                foreach (Tile tile in list)    //AFFICHAGE LIGNE
+                {
+                    if (tile.Type != 0)
+                    { //Si la case existe on l'affiche
+                        Console.Write(tile.Type + " ");
+                    }
+                    else
+                    {   // Si la case n'existe pas on fait un plus grand espace
+                        Console.Write("  ");
+                    }
+                }
+                Console.Write("\n");
+            }
+        }
+
+
+
+
 
 
         public void showMovePossible()
         {
-            List<List<Tile>> rowList = Board.getRowList();
+            List<List<Tile>> rowList = Board.GetRowList();
             foreach (List<Tile> list in rowList) //X
             {
                 foreach (Tile tile in list)   //Y
@@ -111,7 +134,7 @@ namespace SP_0_1
 
         public void showAttackPossible()
         {
-            List<List<Tile>> rowList = Board.getRowList();
+            List<List<Tile>> rowList = Board.GetRowList();
             foreach (List<Tile> list in rowList) //X
             {
                 foreach (Tile tile in list)   //Y
@@ -145,7 +168,7 @@ namespace SP_0_1
 
         public void ShowTurn(List<Character> turnList)
         {
-            List<List<Tile>> rowList = Board.getRowList();
+            List<List<Tile>> rowList = Board.GetRowList();
             foreach (Character c in turnList)
             {
                 Console.Write(c.Name+"  ");
