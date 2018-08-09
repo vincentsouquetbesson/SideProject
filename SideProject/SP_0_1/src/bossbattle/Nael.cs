@@ -31,7 +31,7 @@ namespace SP_0_1
             }
             if(Phase == 1)
             {
-
+                PillarExplosion();
             }
                
         }
@@ -48,9 +48,9 @@ namespace SP_0_1
             if (cast == false) //Si l'attaque n'a pas été lancé
             {
                 Console.WriteLine("Heaven's Fall cast");
-                int mid = FightingBoard.Height / 2;
+                int mid = FightingBoard.Height / 2 ;
                 cast = true;
-                FightingBoard.CreateAOE("heavenFall", 2, mid, mid);
+                FightingBoard.CreateAOE("heavenFall", 2, mid, mid,"ALL");
                 
             }
             else //tour suivant
@@ -58,9 +58,28 @@ namespace SP_0_1
                 Console.WriteLine("Heaven's Fall burn");
                 FightingBoard.UpdateAOE("heavenFall", 9999, 3);
                 Phase++;
+                cast = false;
             }
             Console.WriteLine("GO");
         }
+
+
+        public void PillarExplosion()
+        {
+            if (cast == false) //Si l'attaque n'a pas été lancé
+            {
+                Console.WriteLine("Pillar Explosion cast");
+                int mid = FightingBoard.Height / 2;
+                cast = true;
+                FightingBoard.CreateAOE("pillarExplosion", 9, mid, mid, "NE");
+                FightingBoard.CreateAOE("pillarExplosion", 9, mid, mid, "SW");
+                //FightingBoard.CreateAOE("pillarExplosion", 9, mid, mid, "SE");
+            }
+        }
+
+
+
+
 
 
     }

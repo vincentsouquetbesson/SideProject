@@ -180,6 +180,64 @@ namespace SP_0_1
 
 
 
+
+        public void showBossAttack()
+        {
+            List<List<Tile>> rowList = Board.GetRowList();
+            foreach (List<Tile> list in rowList) //X
+            {
+                foreach (Tile tile in list)   //Y
+                {
+                    if (tile.Type == 0)
+                    {
+                        Console.Write("   ");
+                    }
+                    else
+                    {
+                        if (tile.Type == 3)
+                        {
+                            Console.Write(" X ");
+                        }
+                        else
+                        {
+                            int buffer;
+                            if (tile.CastList.TryGetValue("pillarExplosion", out buffer) && buffer != 300 )
+                            {
+                                Console.Write(" O ");
+                            }
+                            else
+                            {
+                                if (buffer == 300)
+                                {
+                                    Console.Write("   ");
+                                }
+                                else
+                                {
+                                    Console.Write("   ");
+                                }
+                            }
+                        }
+                    }
+                }
+                Console.Write("\n");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

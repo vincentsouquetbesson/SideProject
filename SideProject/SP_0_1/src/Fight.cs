@@ -134,7 +134,7 @@ namespace SP_0_1
             }
 
             Console.WriteLine("TYPE");
-            ConsoleMVSO.ShowBoardType();
+            ConsoleMVSO.showBossAttack();
 
             //    FightingBoard.UpdateBowAttackPossible( c );
             //    ConsoleMVSO.showAttackPossible();
