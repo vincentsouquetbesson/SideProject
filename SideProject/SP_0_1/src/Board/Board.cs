@@ -369,26 +369,20 @@ namespace SP_0_1
 
 
             Boolean line = false;
-            int value, valueSpec;
-            bool result = RowList[posY][posX].CastList.TryGetValue(key, out value);
-            if (result == true)
+            int valueTile, valueNextTile;
+            int mN, mS, mE, mW;
+
+            bool result = RowList[posY][posX].CastList.TryGetValue(key, out valueTile);
+            if (result == true)   //Fixage du point de départ !
             {  //Si aucune clé n'a étais trouvé, sinon, si la valeur est 300, si sa valeur est trés inférieur
                 RowList[posY][posX].CastList[key] = 0;
-            }
-            else
-            {
+            }else{
                 RowList[posY][posX].CastList.Add(key, 0);
             }
             
-            int mN,mS,mE,mW;
-            
-
-
-
             for (int m = 1; m <= size; m++)
             {
-
-                switch(direction){
+                switch(direction){ // Gestion de la direction de l'AOE en fonction de celle qui a était donné
                     case "N":
                         mN = m;     mS = 300;   mE = m;     mW = m;
                         break;
@@ -413,7 +407,7 @@ namespace SP_0_1
                     case "SE":
                         mN = 300;   mS = m;     mE = m;     mW = 300;
                         break;
-                    default:
+                    default:  //aucune direction donnée
                         mN = m;     mS = m;     mE = m;     mW = m;
                         break;
                 }
@@ -421,19 +415,19 @@ namespace SP_0_1
                 {
                     for (int j = 0; j < Width; j++) //On parcourt les X
                     {
-                        result = RowList[i][j].CastList.TryGetValue(key, out value);
-                        if ( result == false  || value == 300 || value < m-1)
+                        result = RowList[i][j].CastList.TryGetValue(key, out valueTile);
+                        if ( result == false  || valueTile == 300 || valueTile < m-1)
                         {  //Si aucune clé n'a étais trouvé, sinon, si la valeur est 300, si sa valeur est trés inférieur
                             continue;
                         }
 
                         { //Si l'on est sur une case a traité, et qu'il reste des tour a traité
-                            if (RowList[i][j].DirNorth < 3 && RowList[i][j].DirNorth > -3 && i - 1 >= 0  && RowList[i - 1][j].Type != 0 && value == m-1 && mN != 300)
+                            if (RowList[i][j].DirNorth < 3 && RowList[i][j].DirNorth > -3 && i - 1 >= 0  && RowList[i - 1][j].Type != 0 && valueTile == m-1 && mN != 300)
                             {  // Vers le Nord ( 0<-
-                                result = RowList[i - 1][j].CastList.TryGetValue(key, out valueSpec);
+                                result = RowList[i - 1][j].CastList.TryGetValue(key, out valueNextTile);
                                 if (result == true)
                                 {
-                                    if (valueSpec == 300 || valueSpec == 100)
+                                    if (valueNextTile == 300 || valueNextTile == 100)
                                     {
                                         RowList[i - 1][j].CastList[key] = mN;
                                     }
@@ -443,12 +437,12 @@ namespace SP_0_1
                                     RowList[i - 1][j].CastList.Add(key, mN);
                                 }
                             }
-                            if (RowList[i][j].DirSouth < 3 && RowList[i][j].DirSouth > -3 && i + 1 < Height && RowList[i + 1][j].Type != 0 && value == m - 1 && mS != 300)
+                            if (RowList[i][j].DirSouth < 3 && RowList[i][j].DirSouth > -3 && i + 1 < Height && RowList[i + 1][j].Type != 0 && valueTile == m - 1 && mS != 300)
                             { //Vers le sud 0->
-                                result = RowList[i + 1][j].CastList.TryGetValue(key, out valueSpec);
+                                result = RowList[i + 1][j].CastList.TryGetValue(key, out valueNextTile);
                                 if (result == true)
                                 {
-                                    if (valueSpec == 300 || valueSpec == 100)
+                                    if (valueNextTile == 300 || valueNextTile == 100)
                                     {
                                         RowList[i + 1][j].CastList[key] = mS;
                                     }
@@ -458,12 +452,12 @@ namespace SP_0_1
                                     RowList[i + 1][j].CastList.Add(key, mS);
                                 }
                             }
-                            if (RowList[i][j].DirWest < 3 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].Type != 0 && value == m - 1 && mW != 300)
+                            if (RowList[i][j].DirWest < 3 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].Type != 0 && valueTile == m - 1 && mW != 300)
                             {
-                                result = RowList[i][j - 1].CastList.TryGetValue(key, out valueSpec);
+                                result = RowList[i][j - 1].CastList.TryGetValue(key, out valueNextTile);
                                 if (result == true)
                                 {
-                                    if (valueSpec == 300 || valueSpec == 100)
+                                    if (valueNextTile == 300 || valueNextTile == 100)
                                     {
                                         RowList[i][j - 1].CastList[key] = mW;
                                     }
@@ -473,12 +467,12 @@ namespace SP_0_1
                                     RowList[i][j - 1].CastList.Add(key, mW);
                                 }
                             }
-                            if (RowList[i][j].DirEast < 3 && RowList[i][j].DirEast > -3 && j + 1 < Width && RowList[i][j + 1].Type != 0 && value == m - 1 && mE != 300)
+                            if (RowList[i][j].DirEast < 3 && RowList[i][j].DirEast > -3 && j + 1 < Width && RowList[i][j + 1].Type != 0 && valueTile == m - 1 && mE != 300)
                             {
-                                result = RowList[i][j + 1].CastList.TryGetValue(key, out valueSpec);
+                                result = RowList[i][j + 1].CastList.TryGetValue(key, out valueNextTile);
                                 if (result == true)
                                 {
-                                    if (valueSpec == 300 || valueSpec == 100)
+                                    if (valueNextTile == 300 || valueNextTile == 100)
                                     {
                                         RowList[i][j + 1].CastList[key] = mE;
                                     }
