@@ -55,11 +55,11 @@ namespace SP_0_1
                     }
                 }
                 if(state == 3)
-                {
+                { //On regarde si des unité précise sont sur la carte
                     if(parts[1] == "2") // si c'est un enemi
                     {
                         if (parts[3] == "1")
-                        {
+                        { // si c'est un boss
                             Console.WriteLine("boss");
                             CharactersBufferList.Add(new FOE(parts[2],
                                                 true,

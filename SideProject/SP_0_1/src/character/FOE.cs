@@ -35,7 +35,7 @@ namespace SP_0_1
             MovePoint = 4;
             if (Boss == true)
             {
-                Console.WriteLine("New BOSS");
+                //Console.WriteLine("New BOSS");
                 BossType = new Nael(fightingBoard);
             }
         }

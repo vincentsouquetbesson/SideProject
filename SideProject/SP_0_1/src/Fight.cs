@@ -25,13 +25,11 @@ namespace SP_0_1
             CharacterList = new List<Character>( heroList );
             // CharacterList = heroList;   //On copie la liste des hero dans la liste du combat
 
-            //INITIATIVE
-
-            
+            //INITIALISATION NULL DE TOUTE LES UNITE
             charactersBufferList = FightingBoard.CharactersBufferList;
             foreach (Character c in charactersBufferList)
             {
-                c.InitBaseStat(10,10,10,80,2);
+                c.InitBaseStat(10,10,10,80,4);
                 c.setBoard(FightingBoard);
             }
 
@@ -123,14 +121,26 @@ namespace SP_0_1
             for (int i = 0; i < 5;i++)
             {
                 c = NextTurn();
-                Console.WriteLine("Depart " + c.Name + " " + c.PositionX + " " + c.PositionY);
+                Console.WriteLine("Depart " + c.Name + " " + c.PositionX + " " + c.PositionY +"    m" + c.MovePoint);
                 FightingBoard.UpdateMovePossible(c);
                 ConsoleMVSO.showMovePossible();
-                FightingBoard.MoveCharacter(c, c.PositionX + 1, c.PositionY);
-                Console.WriteLine("ARRIVER");
-                FightingBoard.UpdateMovePossible(c);
-                ConsoleMVSO.showMovePossible();
-                c.Attack();
+                if(FightingBoard.CheckMoveCharacter( c.PositionX + 1, c.PositionY + 3))
+                {
+                    FightingBoard.GetPath( c.PositionX + 1, c.PositionY + 3 );
+                    ConsoleMVSO.showMovePossible();
+
+                    FightingBoard.MoveCharacter(c,c.PositionX + 1, c.PositionY + 3);
+                    Console.WriteLine("ARRIVER");
+                    FightingBoard.UpdateMovePossible(c);
+                    ConsoleMVSO.showMovePossible();
+                    c.Attack();
+                }
+                else
+                {
+                    Console.WriteLine("COORDONE FAUSSE");
+                }
+
+                
             }
 
             Console.WriteLine("TYPE");

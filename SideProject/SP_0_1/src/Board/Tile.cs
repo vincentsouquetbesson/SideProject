@@ -11,6 +11,7 @@ namespace SP_0_1
         public Character Piece { get; set; }
         public int MovePossible { get; set; }
         public int AttackPossible { get; set; }
+        public String Path { get; set; }
 
         public double DirNorth { get; set; }
         public double DirSouth { get; set; }

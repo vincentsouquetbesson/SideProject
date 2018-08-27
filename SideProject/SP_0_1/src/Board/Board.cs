@@ -34,6 +34,9 @@ namespace SP_0_1
             Height = file.Height;
             Console.WriteLine(Height);
             CharactersBufferList = file.CharactersBufferList;
+
+
+            Console.WriteLine("move"+CharactersBufferList[0].MovePoint);  //suppr
         }
 
 
@@ -97,9 +100,17 @@ namespace SP_0_1
 
         public void UpdateMovePossible(Character character)    //prend en compte hauteur et terrain
         {
-            int consumeMP;
+            int consumeMP , oppositeTeam;
             clearMovePossible();
             RowList[character.PositionY][character.PositionX].MovePossible = 0;
+            if(character.Team == 1 || character.Team == 3)
+            { // Si c'est un allié ou un pnj
+                oppositeTeam = 2;
+            }
+            else
+            {
+                oppositeTeam = 1;
+            }
             for (int m = 0; m < character.MovePoint; m++)
             {
                 for (int i = 0; i < Height; i++) // On parcourt les Y
@@ -114,21 +125,25 @@ namespace SP_0_1
                                 consumeMP = 1;
                             }
 
-                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != 2 && RowList[i - 1][j].MovePossible == 300 && RowList[i - 1][j].Type != 0)
-                            {  // Vers le Nord ( 0<-
+                            if (RowList[i][j].DirNorth < 2 && RowList[i][j].DirNorth > -3 && i - 1 >= 0 && RowList[i - 1][j].CharOnTile() != oppositeTeam && RowList[i - 1][j].MovePossible == 300 && RowList[i - 1][j].Type != 0)
+                            {  // On regarde si la hauteur des case n'est pas un probleme , si la case est dans le board, si un ennemi ne bodyblock pas, si le déplacement est possible et si la case existe
                                 RowList[i - 1][j].MovePossible = m + consumeMP;
+                                RowList[i - 1][j].Path = RowList[i][j].Path + "->" + (i - 1) + ";" + j;
                             }
-                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < Height && RowList[i + 1][j].CharOnTile() != 2 && RowList[i + 1][j].MovePossible == 300 && RowList[i + 1][j].Type != 0)
+                            if (RowList[i][j].DirSouth < 2 && RowList[i][j].DirSouth > -3 && i + 1 < Height && RowList[i + 1][j].CharOnTile() != oppositeTeam && RowList[i + 1][j].MovePossible == 300 && RowList[i + 1][j].Type != 0)
                             { //Vers le sud 0->
                                 RowList[i + 1][j].MovePossible = m + consumeMP;
+                                RowList[i + 1][j].Path = RowList[i][j].Path + "->" + (i + 1) + ";" + j;
                             }
-                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != 2 && RowList[i][j - 1].MovePossible == 300 && RowList[i][j - 1].Type != 0)
+                            if (RowList[i][j].DirWest < 2 && RowList[i][j].DirWest > -3 && j - 1 >= 0 && RowList[i][j - 1].CharOnTile() != oppositeTeam && RowList[i][j - 1].MovePossible == 300 && RowList[i][j - 1].Type != 0)
                             {
                                 RowList[i][j - 1].MovePossible = m + consumeMP;
+                                RowList[i][j - 1].Path = RowList[i][j].Path + "->" + i + ";" + (j - 1);
                             }
-                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < Width && RowList[i][j + 1].CharOnTile() != 2 && RowList[i][j + 1].MovePossible == 300 && RowList[i][j + 1].Type != 0)
+                            if (RowList[i][j].DirEast < 2 && RowList[i][j].DirEast > -3 && j + 1 < Width && RowList[i][j + 1].CharOnTile() != oppositeTeam && RowList[i][j + 1].MovePossible == 300 && RowList[i][j + 1].Type != 0)
                             {
                                 RowList[i][j + 1].MovePossible = m + consumeMP;
+                                RowList[i][j + 1].Path = RowList[i][j].Path + "->" + i + ";" + (j + 1);
                             }
                         }
                     }
@@ -150,6 +165,7 @@ namespace SP_0_1
             foreach (List<Tile> list in RowList){
                 foreach (Tile tile in list){
                     tile.MovePossible = 300;
+                    tile.Path = "";
                 }
             }
         }
@@ -163,8 +179,32 @@ namespace SP_0_1
 
 
 
+        public Boolean CheckMoveCharacter( int posX, int posY)
+        {
+            if (RowList[posY][posX].MovePossible != 300 && RowList[posY][posX].Piece == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
+        public void GetPath(int posX, int posY)
+        {
+            String path = RowList[posY][posX].Path;
+            int move = RowList[posY][posX].MovePossible;
+            String[] substrings = path.Split("->");
+            clearMovePossible();
+            for(int i = 0; i <= move; i++)
+            {
+                if (i == 0) { continue; }
+                String[] subSubstrings = substrings[i].Split(";");
+                RowList[ Convert.ToInt32(subSubstrings[0]) ][Convert.ToInt32(subSubstrings[1])].MovePossible = i;
+            }
+        }
 
 
 
